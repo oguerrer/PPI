@@ -523,7 +523,11 @@ def calibrate(I0, IF, success_rates, A=None, R=None, bs=None, qm=None, rl=None, 
             See run_ppi function.
         rl: A floating point, an integer, or a numpy array (optional)
             See run_ppi function.
-        Bs: numpy ndarray (optional)
+        Imax: numpy array (optional)
+            See run_ppi function.
+        Imin: numpy array (optional)
+            See run_ppi function.
+	Bs: numpy ndarray (optional)
             See run_ppi function.
         B_dict: dictionary (optional)
             See run_ppi function.
@@ -837,8 +841,9 @@ def run_ppi_parallel(I0, alphas, alphas_prime, betas, A=None, R=None, bs=None, q
     """
     
     sols = Parallel(n_jobs=parallel_processes, verbose=0)(delayed(run_ppi)\
-            (I0=I0, alphas=alphas, alphas_prime=alphas_prime, betas=betas, 
-             A=A, R=R, bs=bs, qm=qm, rl=rl, Bs=Bs, B_dict=B_dict, T=T, frontier=frontier) for itera in range(sample_size))
+            (I0=I0, alphas=alphas, alphas_prime=alphas_prime, betas=betas,
+             A=A, R=R, bs=bs, qm=qm, rl=rl, Imax=Imax, Imin=Imin, 
+	     Bs=Bs, B_dict=B_dict, T=T, frontier=frontier) for itera in range(sample_size))
     tsI_sample, tsC_sample, tsF_sample, tsP_sample, tsS_sample, tsG_sample = zip(*sols)
     
     return tsI_sample, tsC_sample, tsF_sample, tsP_sample, tsS_sample, tsG_sample
